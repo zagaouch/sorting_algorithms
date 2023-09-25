@@ -27,7 +27,8 @@ int lomuto_partition(int *array, int low, int high, size_t size)
 	}
 	temp = array[i + 1];
 	array[i + 1] = array[high];
-	array[high] = temp;print_array(array, size);
+	array[high] = temp;
+	print_array(array, size);
 	return (i + 1);
 }
 
@@ -44,6 +45,7 @@ void quick_sort_recursive(int *array, int low, int high, size_t size)
 	if (low < high)
 	{
 		int pivot_index = lomuto_partition(array, low, high, size);
+
 		quick_sort_recursive(array, low, pivot_index - 1, size);
 		quick_sort_recursive(array, pivot_index + 1, high, size);
 	}
