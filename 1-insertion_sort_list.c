@@ -1,35 +1,55 @@
 #include "sort.h"
 
 /**
- * bubble_sort - Sorts an array of integers in
- * ascending order using Bubble sort
- * @array: The array to be sorted
- * @size: The size of the array
- */
-void bubble_sort(int *array, size_t size)
-{
-	size_t i, j;
-	int temp;
-	int swapped;
+* swapem - Swaps the nodes
+* @l: left or lower node
+* @r: right or later node
+* @h: Head of dlist
+*/
 
-	if (array == NULL || size < 2)
-	return;
-	for (i = 0; i < size - 1; i++)
-	{
-		swapped = 0;
-		for (j = 0; j < size - 1 - i; j++)
-		{
-			if (array[j] > array[j + 1])
-			{
-				temp = array[j];
-				array[j] = array[j + 1];
-				array[j + 1] = temp;
-				swapped = 1;
-				print_array(array, size);
-			}
-		}
-	if (swapped == 0)
-		break;
-	}
+void swapem(listint_t *l, listint_t *r, listint_t **h)
+{
+	listint_t *temp;
+
+	temp = l->prev;
+	if (temp)
+		temp->next = r;
+	r->prev = temp;
+	l->prev = r;
+	l->next = r->next;
+	r->next = l;
+	if (l->next != NULL)
+		l->next->prev = l;
+	if (r->prev == NULL)
+		*h = r;
+	print_list(*h);
 }
 
+/**
+* insertion_sort_list - sorts a doubly linked list of integers
+* @list: Head of the list
+*/
+
+void insertion_sort_list(listint_t **list)
+{
+	listint_t *curr, *next, *prev, *prev2;
+
+	if (list == NULL)
+		return;
+
+	curr = next = *list;
+	while (curr != NULL)
+	{
+		while (curr->prev != NULL)
+		{
+			prev = curr->prev;
+			prev2 = prev;
+			if (prev->n > curr->n)
+				swapem(prev, curr, list);
+			curr = prev2;
+		}
+		curr = next->next;
+		next = curr;
+	}
+
+}
