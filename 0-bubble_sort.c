@@ -6,6 +6,7 @@
  * @size : the size of the arraye
 */
 
+
 void bubble_sort(int *array, size_t size)
 {
 int tmp;
