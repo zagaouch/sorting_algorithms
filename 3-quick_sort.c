@@ -9,39 +9,27 @@
  *
  * Return: The index of the pivot element after partitioning
  */
-
-int lomuto_partition(int *a, int l, int h)
+int lomuto_partition(int *array, int low, int high, size_t size)
 {
-	int p, i, j, t;
-	static int size, k;
+	int pivot = array[high];
+	int i = low - 1, j, temp;
 
-	if (k == 0)
-		size = h + 1, k++;
-	p = a[h];
-	i = l;
-	for (j = l; j < h; j++)
+	for (j = low; j <= high - 1; j++)
 	{
-		if (a[j] <= p)
+		if (array[j] <= pivot)
 		{
-			if (i != j)
-			{
-				t = a[i];
-				a[i] = a[j];
-				a[j] = t;
-				print_array(a, size);
-			}
 			i++;
+			temp = array[i];
+			array[i] = array[j];
+			array[j] = temp;
+			print_array(array, size);
 		}
 	}
-	if (i != h)
-	{
-		t = a[i];
-		a[i] = a[h];
-		a[h] = t;
-		print_array(a, size);
-	}
-
-	return (i);
+	temp = array[i + 1];
+	array[i + 1] = array[high];
+	array[high] = temp;
+	print_array(array, size);
+	return (i + 1);
 }
 
 
@@ -52,19 +40,16 @@ int lomuto_partition(int *a, int l, int h)
  * @high: The ending index of the partition
  * @size: The size of the array
  */
-void quick_sort_recursive(int a, int l, int h)
+void quick_sort_recursive(int *array, int low, int high, size_t size)
 {
-	int p;
-
-	if (l < h)
+	if (low < high)
 	{
-		p = partition(a, l, h);
-		qs(a, l, p - 1);
-		qs(a, p + 1, h);
+		int pivot_index = lomuto_partition(array, low, high, size);
+
+		quick_sort_recursive(array, low, pivot_index - 1, size);
+		quick_sort_recursive(array, pivot_index + 1, high, size);
 	}
 }
-
-
 /**
  * quick_sort - Sorts an array of integers in ascending order using Quick sort
  * @array: The array to be sorted
@@ -73,7 +58,7 @@ void quick_sort_recursive(int a, int l, int h)
 
 void quick_sort(int *array, size_t size)
 {
-	if (array == NULL)
+	if (array == NULL || size < 2)
 		return;
-	qs(array, 0, size - 1);
+	quick_sort_recursive(array, 0, size - 1, size);
 }
