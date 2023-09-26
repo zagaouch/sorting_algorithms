@@ -1,9 +1,11 @@
 #include "sort.h"
+
 /**
  * bubble_sort - boubble fucntion to sort a list
  * @array : array list
  * @size : the size of the arraye
 */
+
 void bubble_sort(int *array, size_t size)
 {
 int tmp;
